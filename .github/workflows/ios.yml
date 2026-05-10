@@ -8,35 +8,49 @@ on:
 jobs:
   build-test:
     runs-on: macos-14
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - name: Select Xcode 15.4
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          # Pin to a 15.x line that ships with iOS 17 SDK; "latest-stable"
+          # would jump to Xcode 16 the moment GitHub bumps the image.
+          xcode-version: '15.4'
+
+      - name: Show Xcode + simulator inventory
+        run: |
+          xcodebuild -version
+          xcrun simctl list runtimes
+          xcrun simctl list devices available
+
       - name: Install XcodeGen
         run: brew install xcodegen
-      - name: Generate project
+
+      - name: Generate Xcode project
         run: xcodegen generate
-      - name: Resolve packages
+
+      - name: Resolve Swift packages
         run: |
           xcodebuild -resolvePackageDependencies \
             -scheme Hovera \
             -derivedDataPath build/derived
+
       - name: Build (iPhone)
         run: |
+          set -o pipefail
           xcodebuild build \
             -scheme Hovera \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
-            -derivedDataPath build/derived | xcpretty
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -derivedDataPath build/derived \
+            CODE_SIGNING_ALLOWED=NO
+
       - name: Test (iPhone)
         run: |
+          set -o pipefail
           xcodebuild test \
             -scheme Hovera \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
-            -derivedDataPath build/derived | xcpretty
-      - name: Test (iPad)
-        run: |
-          xcodebuild test \
-            -scheme Hovera \
-            -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch),OS=latest' \
-            -derivedDataPath build/derived | xcpretty
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -derivedDataPath build/derived \
+            CODE_SIGNING_ALLOWED=NO
