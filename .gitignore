@@ -1,0 +1,23 @@
+# Xcode
+build/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+*.xcuserstate
+
+# XcodeGen output (regenerated)
+Hovera.xcodeproj/
+
+# Swift PM
+.build/
+Packages/*/.build/
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Misc
+local.xcconfig
+*.log
