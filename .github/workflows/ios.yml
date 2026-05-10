@@ -15,16 +15,13 @@ jobs:
       - name: Select Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          # Use whatever Xcode 16 is preinstalled on the macos-14 image.
-          # Pinning to 15.4 broke because brew's xcodegen now emits
-          # objectVersion 77 (Xcode 16-only project format).
           xcode-version: 'latest-stable'
 
       - name: Show Xcode + simulator inventory
         run: |
           xcodebuild -version
           xcrun simctl list runtimes
-          xcrun simctl list devices available | head -50
+          xcrun simctl list devices available | head -60
 
       - name: Install XcodeGen
         run: brew install xcodegen
@@ -38,20 +35,42 @@ jobs:
             -scheme Hovera \
             -derivedDataPath build/derived
 
-      - name: Build (iPhone)
+      # Build without a specific simulator first — catches compile errors
+      # without depending on what device names are preinstalled.
+      - name: Build (generic iOS Simulator)
         run: |
           set -o pipefail
           xcodebuild build \
             -scheme Hovera \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'generic/platform=iOS Simulator' \
             -derivedDataPath build/derived \
             CODE_SIGNING_ALLOWED=NO
 
-      - name: Test (iPhone)
+      # Resolve a concrete device by partial name from the inventory.
+      # Falls back across iPhone 16 / 15 / SE depending on what's there.
+      - name: Pick simulator
+        id: sim
+        run: |
+          for NAME in "iPhone 16" "iPhone 15" "iPhone SE (3rd generation)"; do
+            ID=$(xcrun simctl list devices available --json \
+              | python3 -c "import json,sys; data=json.load(sys.stdin)['devices']; \
+                  print(next((d['udid'] for runtime,devs in data.items() if 'iOS' in runtime \
+                    for d in devs if d.get('isAvailable') and d['name']=='$NAME'), ''))")
+            if [ -n "$ID" ]; then
+              echo "name=$NAME" >> "$GITHUB_OUTPUT"
+              echo "id=$ID" >> "$GITHUB_OUTPUT"
+              echo "Selected: $NAME ($ID)"
+              exit 0
+            fi
+          done
+          echo "No suitable iOS simulator found." >&2
+          exit 1
+
+      - name: Test (${{ steps.sim.outputs.name }})
         run: |
           set -o pipefail
           xcodebuild test \
             -scheme Hovera \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'platform=iOS Simulator,id=${{ steps.sim.outputs.id }}' \
             -derivedDataPath build/derived \
             CODE_SIGNING_ALLOWED=NO
