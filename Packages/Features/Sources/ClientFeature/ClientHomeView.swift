@@ -32,7 +32,7 @@ public struct ClientHomeView: View {
                 }
                 .padding(HoveraTheme.Spacing.l)
             }
-            .navigationTitle(Text("role.client.home.title", bundle: .module))
+            .navigationTitle(Text("role.client.home.title"))
             .toolbarBackground(HoveraTheme.Colors.brandBackground, for: .navigationBar)
         }
         .hoveraSyncStatus()
@@ -40,7 +40,7 @@ public struct ClientHomeView: View {
 
     @ViewBuilder
     private func sectionHeader(_ key: LocalizedStringKey) -> some View {
-        Text(key, bundle: .module)
+        Text(key)
             .font(HoveraTheme.Typography.heading)
             .foregroundStyle(HoveraTheme.Colors.brandSecondary)
     }
@@ -61,9 +61,9 @@ struct PlaceholderCard: View {
                     Circle().fill(HoveraTheme.Colors.brandPrimary.opacity(0.12))
                 )
             VStack(alignment: .leading, spacing: 4) {
-                Text(title, bundle: .module)
+                Text(title)
                     .font(HoveraTheme.Typography.heading)
-                Text(subtitle, bundle: .module)
+                Text(subtitle)
                     .font(HoveraTheme.Typography.body)
                     .foregroundStyle(HoveraTheme.Colors.textMuted)
             }

@@ -8,7 +8,7 @@ public struct ManagerHomeView: View {
     public var body: some View {
         NavigationSplitView(columnVisibility: .constant(.all)) {
             List {
-                Section(header: Text("manager.section.overview", bundle: .module)) {
+                Section(header: Text("manager.section.overview")) {
                     NavigationLink(destination: Text("manager.calendar.placeholder")) {
                         Label("manager.calendar.title", systemImage: "calendar")
                     }
@@ -24,7 +24,7 @@ public struct ManagerHomeView: View {
                 }
             }
             .listStyle(.sidebar)
-            .navigationTitle(Text("role.manager.home.title", bundle: .module))
+            .navigationTitle(Text("role.manager.home.title"))
         } content: {
             HoveraEmptyState(title: "manager.content.empty", icon: "chart.bar")
         } detail: {

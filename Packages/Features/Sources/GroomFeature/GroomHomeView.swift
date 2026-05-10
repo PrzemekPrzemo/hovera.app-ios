@@ -9,7 +9,7 @@ public struct GroomHomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: HoveraTheme.Spacing.m) {
-                    Text("groom.intro.offline", bundle: .module)
+                    Text("groom.intro.offline")
                         .font(HoveraTheme.Typography.body)
                         .foregroundStyle(HoveraTheme.Colors.textMuted)
                         .multilineTextAlignment(.leading)
@@ -24,7 +24,7 @@ public struct GroomHomeView: View {
                 }
                 .padding(HoveraTheme.Spacing.l)
             }
-            .navigationTitle(Text("role.groom.home.title", bundle: .module))
+            .navigationTitle(Text("role.groom.home.title"))
         }
         .hoveraSyncStatus()
     }
@@ -42,7 +42,7 @@ struct GroomChecklistRow: View {
                     .foregroundStyle(done ? HoveraTheme.Colors.brandPrimary : HoveraTheme.Colors.textMuted)
                     .font(.title2)
                 Image(systemName: icon).foregroundStyle(HoveraTheme.Colors.brandSecondary)
-                Text(title, bundle: .module)
+                Text(title)
                     .font(HoveraTheme.Typography.body)
                     .foregroundStyle(HoveraTheme.Colors.textPrimary)
                     .strikethrough(done, color: HoveraTheme.Colors.textMuted)

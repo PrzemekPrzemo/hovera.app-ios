@@ -17,7 +17,7 @@ public struct LoginView: View {
             Spacer()
 
             HoveraBrandHeader()
-            Text("login.subtitle", bundle: .module)
+            Text("login.subtitle")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(HoveraTheme.Colors.textMuted)
                 .padding(.horizontal, HoveraTheme.Spacing.l)
@@ -38,13 +38,13 @@ public struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: HoveraTheme.Radius.card))
 
                 if let errorMessage {
-                    Text(errorMessage, bundle: .module)
+                    Text(errorMessage)
                         .font(HoveraTheme.Typography.caption)
                         .foregroundStyle(HoveraTheme.Colors.danger)
                 }
 
                 Button(action: submit) {
-                    Text(isWorking ? "common.loading" : "login.action", bundle: .module)
+                    Text(isWorking ? "common.loading" : "login.action")
                 }
                 .buttonStyle(HoveraPrimaryButtonStyle())
                 .disabled(isWorking || email.isEmpty || password.isEmpty)

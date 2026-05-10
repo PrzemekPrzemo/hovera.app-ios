@@ -11,7 +11,7 @@ public struct TenantPickerView: View {
         VStack(alignment: .leading, spacing: HoveraTheme.Spacing.m) {
             HoveraBrandHeader()
                 .padding(.bottom, HoveraTheme.Spacing.s)
-            Text("tenant.picker.title", bundle: .module)
+            Text("tenant.picker.title")
                 .font(HoveraTheme.Typography.heading)
                 .foregroundStyle(HoveraTheme.Colors.brandSecondary)
 
@@ -31,7 +31,7 @@ public struct TenantPickerView: View {
             }
 
             Button(action: { Task { await session.signOut() } }) {
-                Text("common.logout", bundle: .module)
+                Text("common.logout")
             }
             .buttonStyle(HoveraSecondaryButtonStyle())
             .padding(.top, HoveraTheme.Spacing.l)
