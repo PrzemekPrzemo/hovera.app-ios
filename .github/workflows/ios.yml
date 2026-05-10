@@ -35,8 +35,6 @@ jobs:
             -scheme Hovera \
             -derivedDataPath build/derived
 
-      # Build without a specific simulator first — catches compile errors
-      # without depending on what device names are preinstalled.
       - name: Build (generic iOS Simulator)
         run: |
           set -o pipefail
@@ -46,27 +44,42 @@ jobs:
             -derivedDataPath build/derived \
             CODE_SIGNING_ALLOWED=NO
 
-      # Resolve a concrete device by partial name from the inventory.
-      # Falls back across iPhone 16 / 15 / SE depending on what's there.
+      # Resolve a concrete simulator UDID via jq (preinstalled on
+      # macos runners). First try preferred names; if none of those
+      # exist on the image, fall back to whatever iOS simulator IS
+      # available so the workflow keeps green as images change.
       - name: Pick simulator
         id: sim
         run: |
-          for NAME in "iPhone 16" "iPhone 15" "iPhone SE (3rd generation)"; do
-            ID=$(xcrun simctl list devices available --json \
-              | python3 -c "import json,sys; data=json.load(sys.stdin)['devices']; \
-                  print(next((d['udid'] for runtime,devs in data.items() if 'iOS' in runtime \
-                    for d in devs if d.get('isAvailable') and d['name']=='$NAME'), ''))")
-            if [ -n "$ID" ]; then
-              echo "name=$NAME" >> "$GITHUB_OUTPUT"
-              echo "id=$ID" >> "$GITHUB_OUTPUT"
-              echo "Selected: $NAME ($ID)"
-              exit 0
-            fi
-          done
-          echo "No suitable iOS simulator found." >&2
-          exit 1
+          INV=$(xcrun simctl list devices available --json)
+          ID=$(echo "$INV" | jq -r '
+            .devices
+            | to_entries
+            | map(select(.key | test("iOS")))
+            | map(.value[])
+            | map(select(.isAvailable))
+            | map(select(.name == "iPhone 16" or .name == "iPhone 15" or .name == "iPhone SE (3rd generation)"))
+            | .[0].udid // empty
+          ')
+          if [ -z "$ID" ]; then
+            echo "::warning::No preferred device available; falling back to first available iOS simulator."
+            ID=$(echo "$INV" | jq -r '
+              .devices
+              | to_entries
+              | map(select(.key | test("iOS")))
+              | map(.value[])
+              | map(select(.isAvailable))
+              | .[0].udid // empty
+            ')
+          fi
+          if [ -z "$ID" ]; then
+            echo "No iOS simulator available at all." >&2
+            exit 1
+          fi
+          echo "Selected simulator UDID: $ID"
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
 
-      - name: Test (${{ steps.sim.outputs.name }})
+      - name: Test
         run: |
           set -o pipefail
           xcodebuild test \
