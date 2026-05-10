@@ -25,10 +25,10 @@ public struct ConflictEvent: Sendable, Equatable {
     }
 }
 
-/// Drives the offline-first sync loop. Implementation deliberately uses
-/// raw SQL over GRDB rather than the QueryInterface DSL — the DSL's
-/// operator overloads (`Column == nil`, `==` on Sendable boundaries)
-/// were tripping Swift 6 / Xcode 16 strict concurrency repeatedly.
+/// Drives the offline-first sync loop. Implementation uses GRDB SQL
+/// string interpolation (`db.execute(literal:)`) so every parameter is
+/// type-safe through `SQLExpressible` — sidesteps `StatementArguments`
+/// array-literal inference issues under Swift 6 strict concurrency.
 public actor SyncEngine {
     private let api: APIClient
     private let database: HoveraDatabase
@@ -77,15 +77,13 @@ public actor SyncEngine {
         let bv: Int? = baseVersion
 
         try await database.queue.write { db in
-            try db.execute(
-                sql: """
-                    INSERT INTO mutation_queue
-                    (client_uuid, idempotency_key, entity, op, payload_json,
-                     base_version, attempts, next_retry_at, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, 0, NULL, ?)
-                """,
-                arguments: [clientUuid, idempotency, entity, op, payloadJson, bv, createdAt]
-            )
+            try db.execute(literal: """
+                INSERT INTO mutation_queue
+                  (client_uuid, idempotency_key, entity, op, payload_json,
+                   base_version, attempts, next_retry_at, created_at)
+                VALUES (\(clientUuid), \(idempotency), \(entity), \(op), \(payloadJson),
+                        \(bv), 0, NULL, \(createdAt))
+            """)
         }
         return clientUuid
     }
@@ -140,16 +138,12 @@ public actor SyncEngine {
     private func pushMutations() async throws {
         let now = clock.now()
         let due: [PendingMutation] = try await database.queue.read { db in
-            try PendingMutation.fetchAll(
-                db,
-                sql: """
-                    SELECT * FROM mutation_queue
-                    WHERE next_retry_at IS NULL OR next_retry_at <= ?
-                    ORDER BY created_at ASC
-                    LIMIT 100
-                """,
-                arguments: [now]
-            )
+            try PendingMutation.fetchAll(db, literal: """
+                SELECT * FROM mutation_queue
+                WHERE next_retry_at IS NULL OR next_retry_at <= \(now)
+                ORDER BY created_at ASC
+                LIMIT 100
+            """)
         }
         guard !due.isEmpty else { return }
 
@@ -181,24 +175,19 @@ public actor SyncEngine {
 
         try await database.queue.write { db in
             for result in results {
+                let uuid = result.client_uuid
                 switch result.status {
                 case "applied", "duplicate", "conflict":
-                    try db.execute(
-                        sql: "DELETE FROM mutation_queue WHERE client_uuid = ?",
-                        arguments: [result.client_uuid]
-                    )
+                    try db.execute(literal: """
+                        DELETE FROM mutation_queue WHERE client_uuid = \(uuid)
+                    """)
                 default:
-                    // Bump attempts + schedule retry. SQLite computes the
-                    // backoff so we don't need to read+update in two trips.
-                    try db.execute(
-                        sql: """
-                            UPDATE mutation_queue
-                            SET attempts = attempts + 1,
-                                next_retry_at = ?
-                            WHERE client_uuid = ?
-                        """,
-                        arguments: [nowForRetry.addingTimeInterval(8), result.client_uuid]
-                    )
+                    let nextRetry = nowForRetry.addingTimeInterval(8)
+                    try db.execute(literal: """
+                        UPDATE mutation_queue
+                        SET attempts = attempts + 1, next_retry_at = \(nextRetry)
+                        WHERE client_uuid = \(uuid)
+                    """)
                 }
             }
         }
@@ -227,24 +216,19 @@ public actor SyncEngine {
     private func readCursor() async throws -> String? {
         let key = SyncEngine.cursorKey
         return try await database.queue.read { db in
-            try String.fetchOne(
-                db,
-                sql: "SELECT value FROM sync_cursors WHERE key = ? LIMIT 1",
-                arguments: [key]
-            )
+            try String.fetchOne(db, literal: """
+                SELECT value FROM sync_cursors WHERE key = \(key) LIMIT 1
+            """)
         }
     }
 
     private func writeCursor(_ value: String) async throws {
         let key = SyncEngine.cursorKey
         try await database.queue.write { db in
-            try db.execute(
-                sql: """
-                    INSERT INTO sync_cursors (key, value) VALUES (?, ?)
-                    ON CONFLICT(key) DO UPDATE SET value = excluded.value
-                """,
-                arguments: [key, value]
-            )
+            try db.execute(literal: """
+                INSERT INTO sync_cursors (key, value) VALUES (\(key), \(value))
+                ON CONFLICT(key) DO UPDATE SET value = excluded.value
+            """)
         }
     }
 }
