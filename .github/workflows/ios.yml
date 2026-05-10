@@ -31,23 +31,21 @@ jobs:
 
       - name: Resolve Swift packages
         run: |
+          set -o pipefail
           xcodebuild -resolvePackageDependencies \
             -scheme Hovera \
-            -derivedDataPath build/derived
+            -derivedDataPath build/derived 2>&1 | tee resolve.log
 
       - name: Build (generic iOS Simulator)
+        id: build
         run: |
           set -o pipefail
           xcodebuild build \
             -scheme Hovera \
             -destination 'generic/platform=iOS Simulator' \
             -derivedDataPath build/derived \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee build.log
 
-      # Resolve a concrete simulator UDID via jq (preinstalled on
-      # macos runners). First try preferred names; if none of those
-      # exist on the image, fall back to whatever iOS simulator IS
-      # available so the workflow keeps green as images change.
       - name: Pick simulator
         id: sim
         run: |
@@ -62,7 +60,6 @@ jobs:
             | .[0].udid // empty
           ')
           if [ -z "$ID" ]; then
-            echo "::warning::No preferred device available; falling back to first available iOS simulator."
             ID=$(echo "$INV" | jq -r '
               .devices
               | to_entries
@@ -86,4 +83,25 @@ jobs:
             -scheme Hovera \
             -destination 'platform=iOS Simulator,id=${{ steps.sim.outputs.id }}' \
             -derivedDataPath build/derived \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee test.log
+
+      - name: Print last 200 lines of logs on failure
+        if: failure()
+        run: |
+          for f in resolve.log build.log test.log; do
+            if [ -f "$f" ]; then
+              echo "===== $f (last 200 lines) ====="
+              tail -200 "$f" || true
+            fi
+          done
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-logs
+          path: |
+            *.log
+            build/derived/Logs/Build/*.xcactivitylog
+          if-no-files-found: warn
+          retention-days: 7
