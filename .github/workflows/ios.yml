@@ -12,18 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select latest stable Xcode
+      - name: Select Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          # Pin to a 15.x line that ships with iOS 17 SDK; "latest-stable"
-          # would jump to Xcode 16 the moment GitHub bumps the image.
-          xcode-version: '15.4'
+          # Use whatever Xcode 16 is preinstalled on the macos-14 image.
+          # Pinning to 15.4 broke because brew's xcodegen now emits
+          # objectVersion 77 (Xcode 16-only project format).
+          xcode-version: 'latest-stable'
 
       - name: Show Xcode + simulator inventory
         run: |
           xcodebuild -version
           xcrun simctl list runtimes
-          xcrun simctl list devices available
+          xcrun simctl list devices available | head -50
 
       - name: Install XcodeGen
         run: brew install xcodegen
