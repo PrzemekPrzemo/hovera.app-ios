@@ -16,6 +16,23 @@ public enum MembershipRole: Sendable, Hashable {
     }
 }
 
+/// Top-level Sendable struct — used to be nested inside Session but Swift 6
+/// strict concurrency made constructing it from @Sendable closures a hassle
+/// (nested types inherit outer @MainActor isolation).
+public struct Membership: Identifiable, Sendable, Hashable {
+    public let id: String           // tenant id
+    public let tenantName: String
+    public let brandColorHex: String?
+    public let role: MembershipRole
+
+    public init(id: String, tenantName: String, brandColorHex: String?, role: MembershipRole) {
+        self.id = id
+        self.tenantName = tenantName
+        self.brandColorHex = brandColorHex
+        self.role = role
+    }
+}
+
 public enum SessionState: Sendable, Equatable {
     case loading
     case unauthenticated
@@ -23,9 +40,7 @@ public enum SessionState: Sendable, Equatable {
     case ready(MembershipRole)
 }
 
-/// Single source of truth for the auth/tenant lifecycle. Owned by the
-/// app target; feature views read it via @EnvironmentObject and call
-/// `signIn(email:password:)` / `pickTenant(_:)` / `signOut()`.
+/// Single source of truth for the auth/tenant lifecycle.
 @MainActor
 public final class Session: ObservableObject {
     public static let shared = Session()
@@ -34,13 +49,6 @@ public final class Session: ObservableObject {
     @Published public private(set) var memberships: [Membership] = []
     @Published public private(set) var activeTenantId: String?
     @Published public private(set) var lastError: String?
-
-    public struct Membership: Identifiable, Sendable, Hashable {
-        public let id: String           // tenant id
-        public let tenantName: String
-        public let brandColorHex: String?
-        public let role: MembershipRole
-    }
 
     public init() {}
 
@@ -52,8 +60,6 @@ public final class Session: ObservableObject {
         case (nil, _): state = .unauthenticated
         case (_, nil): state = .needsTenant
         case (_, _):
-            // We trust cached membership info; SyncEngine will refresh it.
-            // If memberships happen to be empty (cold install), bounce to picker.
             if memberships.isEmpty {
                 state = .needsTenant
             } else if let m = memberships.first(where: { $0.id == tenantId }) {
@@ -92,9 +98,6 @@ public final class Session: ObservableObject {
     }
 
     public func registerDeviceToken(_ token: String, platform: String) async {
-        // Wired up from AppDelegate after APNs registration. The actual
-        // POST /api/v1/devices call lives in SharedFeature so it can use
-        // the APIClient (CoreAuth must not depend on CoreNetworking).
         UserDefaults.standard.set(token, forKey: "hovera.pending_device_token")
         UserDefaults.standard.set(platform, forKey: "hovera.pending_device_platform")
     }

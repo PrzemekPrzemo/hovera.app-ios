@@ -11,7 +11,7 @@ public struct TenantPickerView: View {
         VStack(alignment: .leading, spacing: HoveraTheme.Spacing.m) {
             HoveraBrandHeader()
                 .padding(.bottom, HoveraTheme.Spacing.s)
-            Text("tenant.picker.title", bundle: .module)
+            Text("tenant.picker.title")
                 .font(HoveraTheme.Typography.heading)
                 .foregroundStyle(HoveraTheme.Colors.brandSecondary)
 
@@ -21,7 +21,9 @@ public struct TenantPickerView: View {
                 ScrollView {
                     VStack(spacing: HoveraTheme.Spacing.m) {
                         ForEach(session.memberships) { membership in
-                            Button(action: { Task { await session.pickTenant(membership) } }) {
+                            Button {
+                                Task { @MainActor in await session.pickTenant(membership) }
+                            } label: {
                                 tenantRow(membership)
                             }
                             .buttonStyle(.plain)
@@ -30,8 +32,10 @@ public struct TenantPickerView: View {
                 }
             }
 
-            Button(action: { Task { await session.signOut() } }) {
-                Text("common.logout", bundle: .module)
+            Button {
+                Task { @MainActor in await session.signOut() }
+            } label: {
+                Text("common.logout")
             }
             .buttonStyle(HoveraSecondaryButtonStyle())
             .padding(.top, HoveraTheme.Spacing.l)
@@ -40,7 +44,7 @@ public struct TenantPickerView: View {
     }
 
     @ViewBuilder
-    private func tenantRow(_ m: Session.Membership) -> some View {
+    private func tenantRow(_ m: Membership) -> some View {
         HStack {
             Circle()
                 .fill(HoveraTheme.Colors.brandPrimary)

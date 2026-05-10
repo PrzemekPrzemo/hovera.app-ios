@@ -67,7 +67,7 @@ private struct UnknownRoleView: View {
             Image(systemName: "questionmark.circle")
                 .font(.system(size: 48))
                 .foregroundStyle(HoveraTheme.Colors.brandSecondary)
-            Text("role.unknown.title", bundle: .module)
+            Text("role.unknown.title")
                 .font(.headline)
             Text(verbatim: raw)
                 .font(.caption)

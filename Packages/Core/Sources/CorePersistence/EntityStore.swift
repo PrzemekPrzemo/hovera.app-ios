@@ -1,19 +1,9 @@
 import Foundation
 import GRDB
 
-public struct EntityRow: Codable, FetchableRecord, MutablePersistableRecord {
-    public var id: String
-    public var sync_version: Int
-    public var updated_at: Date?
-    public var deleted_at: Date?
-    public var payload_json: String
-
-    public static var databaseTableName: String { "" } // overridden by table name in queries
-}
-
 /// Lightweight type-erased upsert/delete API used by the change applier.
-/// Avoids generating a struct per entity at this stage — features query
-/// rows by their JSON payload via small projection helpers below.
+/// We persist the full row payload as JSON in `payload_json`; feature
+/// view models parse it lazily into typed records per screen.
 public enum EntityStore {
     public static func upsert(in db: Database, table: String, change: ChangeRow) throws {
         try db.execute(sql: """

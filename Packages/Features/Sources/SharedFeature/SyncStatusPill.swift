@@ -14,7 +14,7 @@ public struct SyncStatusPill: View {
             Circle()
                 .fill(color)
                 .frame(width: 8, height: 8)
-            Text(label, bundle: .module)
+            Text(label)
                 .font(HoveraTheme.Typography.caption)
                 .foregroundStyle(HoveraTheme.Colors.textMuted)
         }
@@ -25,7 +25,6 @@ public struct SyncStatusPill: View {
                 .shadow(color: .black.opacity(0.05), radius: 4, y: 1)
         )
         .task {
-            // Re-sample status every 5s while the view is on screen.
             while !Task.isCancelled {
                 status = await SyncEngineProviderShim.status()
                 try? await Task.sleep(nanoseconds: 5_000_000_000)
@@ -52,8 +51,7 @@ public struct SyncStatusPill: View {
 }
 
 /// Indirection so we don't need to expose the app-target SyncEngineProvider
-/// to feature packages. Feature code calls into this shim; the host app
-/// can override `provider` at launch.
+/// to feature packages.
 public enum SyncEngineProviderShim {
     nonisolated(unsafe) public static var statusProvider: @Sendable () async -> SyncStatus = { .idle }
     public static func status() async -> SyncStatus { await statusProvider() }

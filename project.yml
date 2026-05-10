@@ -109,6 +109,8 @@ targets:
         product: CoreSync
       - package: Core
         product: CoreNetworking
+      - package: Core
+        product: CorePersistence
 schemes:
   Hovera:
     build:

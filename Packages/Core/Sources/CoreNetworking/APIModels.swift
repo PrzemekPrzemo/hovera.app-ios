@@ -32,7 +32,7 @@ public struct APITenant: Decodable, Sendable, Identifiable {
 public struct APIMembership: Decodable, Sendable {
     public let tenant: APITenant
     public let role: String
-    public let permissions: [String: AnyCodable]?
+    public let permissions: AnyCodable?
 }
 
 public struct DeviceRegistration: Encodable, Sendable {
@@ -106,27 +106,32 @@ public struct PresignResponse: Decodable, Sendable {
 
 /// JSON value bridge — lets us decode opaque payloads from /sync/changes
 /// and round-trip them as encodable bodies for /sync/mutations.
-public struct AnyCodable: Codable, Sendable {
-    public let value: Sendable & Codable
+///
+/// `@unchecked Sendable`: internal storage is `JSONValue` (an enum of leaf
+/// types) which is structurally sendable; we mark it unchecked to dodge
+/// Swift 6 strict-concurrency checks on the recursive case (the array /
+/// dictionary variants reference Self).
+public struct AnyCodable: Codable, @unchecked Sendable {
+    public let value: JSONValue
 
-    public init(_ value: any Sendable & Codable) { self.value = value }
+    public init(_ value: JSONValue) { self.value = value }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if container.decodeNil() {
-            self.value = NullValue()
+            self.value = .null
         } else if let v = try? container.decode(Bool.self) {
-            self.value = v
+            self.value = .bool(v)
         } else if let v = try? container.decode(Int.self) {
-            self.value = v
+            self.value = .int(v)
         } else if let v = try? container.decode(Double.self) {
-            self.value = v
+            self.value = .double(v)
         } else if let v = try? container.decode(String.self) {
-            self.value = v
+            self.value = .string(v)
         } else if let v = try? container.decode([AnyCodable].self) {
-            self.value = v
+            self.value = .array(v.map(\.value))
         } else if let v = try? container.decode([String: AnyCodable].self) {
-            self.value = v
+            self.value = .object(v.mapValues { $0.value })
         } else {
             throw DecodingError.dataCorruptedError(
                 in: container, debugDescription: "AnyCodable: unknown JSON token"
@@ -137,18 +142,23 @@ public struct AnyCodable: Codable, Sendable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch value {
-        case is NullValue: try container.encodeNil()
-        case let v as Bool: try container.encode(v)
-        case let v as Int: try container.encode(v)
-        case let v as Double: try container.encode(v)
-        case let v as String: try container.encode(v)
-        case let v as [AnyCodable]: try container.encode(v)
-        case let v as [String: AnyCodable]: try container.encode(v)
-        default:
-            throw EncodingError.invalidValue(value,
-                .init(codingPath: encoder.codingPath, debugDescription: "Unsupported AnyCodable"))
+        case .null: try container.encodeNil()
+        case .bool(let v): try container.encode(v)
+        case .int(let v): try container.encode(v)
+        case .double(let v): try container.encode(v)
+        case .string(let v): try container.encode(v)
+        case .array(let arr): try container.encode(arr.map(AnyCodable.init))
+        case .object(let obj): try container.encode(obj.mapValues(AnyCodable.init))
         }
     }
 }
 
-public struct NullValue: Codable, Sendable {}
+public indirect enum JSONValue: Sendable {
+    case null
+    case bool(Bool)
+    case int(Int)
+    case double(Double)
+    case string(String)
+    case array([JSONValue])
+    case object([String: JSONValue])
+}
