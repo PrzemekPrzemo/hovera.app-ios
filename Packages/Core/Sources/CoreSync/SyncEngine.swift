@@ -26,15 +26,17 @@ public actor SyncEngine {
     private let database: HoveraDatabase
     private let clock: any Clock
     private var status: SyncStatus = .idle
-    private var conflictContinuation: AsyncStream<ConflictEvent>.Continuation?
+    private let conflictContinuation: AsyncStream<ConflictEvent>.Continuation
     public nonisolated let conflicts: AsyncStream<ConflictEvent>
 
     public init(api: APIClient, database: HoveraDatabase, clock: any Clock) {
         self.api = api
         self.database = database
         self.clock = clock
-        var continuation: AsyncStream<ConflictEvent>.Continuation!
-        self.conflicts = AsyncStream { continuation = $0 }
+        // AsyncStream.makeStream avoids the @Sendable mutable-capture warning
+        // that AsyncStream(_ build:) triggers under Swift 6 / Xcode 16.
+        let (stream, continuation) = AsyncStream<ConflictEvent>.makeStream()
+        self.conflicts = stream
         self.conflictContinuation = continuation
     }
 
@@ -42,7 +44,8 @@ public actor SyncEngine {
 
     public func runOnce() async {
         await Reachability.shared.start()
-        guard await Reachability.shared.isOnline() else {
+        let online = await Reachability.shared.isOnline()
+        guard online else {
             status = .offline
             return
         }
@@ -65,25 +68,27 @@ public actor SyncEngine {
         let clientUuid = UUID().uuidString
         let device = await UIDevice_identifier()
         let idempotency = "\(device):\(clientUuid):\(op)"
-        var record = PendingMutation(
-            client_uuid: clientUuid,
-            idempotency_key: idempotency,
-            entity: entity,
-            op: op,
-            payload_json: payloadJson,
-            attempts: 0,
-            next_retry_at: nil,
-            created_at: clock.now()
-        )
-        try await database.queue.write { db in try record.insert(db) }
+        let now = clock.now()
+        try await database.queue.write { db in
+            var record = PendingMutation(
+                client_uuid: clientUuid,
+                idempotency_key: idempotency,
+                entity: entity,
+                op: op,
+                payload_json: payloadJson,
+                attempts: 0,
+                next_retry_at: nil,
+                created_at: now
+            )
+            try record.insert(db)
+        }
         return clientUuid
     }
 
     // MARK: - Pull
 
     private func pullChanges() async throws {
-        let cursor = try await readCursor()
-        var since: String? = cursor
+        var since: String? = try await readCursor()
         while true {
             let endpoint = APIEndpoints.syncChanges(since: since, entities: [], limit: 200)
             let feed = try await api.send(endpoint)
@@ -106,9 +111,10 @@ public actor SyncEngine {
                     )
                 } else {
                     let payloadJson: String
-                    if let payload = change.payload {
-                        let data = (try? JSONEncoder().encode(payload)) ?? Data("{}".utf8)
-                        payloadJson = String(data: data, encoding: .utf8) ?? "{}"
+                    if let payload = change.payload,
+                       let data = try? JSONEncoder().encode(payload),
+                       let s = String(data: data, encoding: .utf8) {
+                        payloadJson = s
                     } else {
                         payloadJson = "{}"
                     }
@@ -124,9 +130,9 @@ public actor SyncEngine {
     // MARK: - Push
 
     private func pushMutations() async throws {
-        let due = try await database.queue.read { db -> [PendingMutation] in
-            let now = self.clock.now()
-            return try PendingMutation
+        let now = clock.now()
+        let due: [PendingMutation] = try await database.queue.read { db in
+            try PendingMutation
                 .filter(Column("next_retry_at") == nil || Column("next_retry_at") <= now)
                 .order(Column("created_at"))
                 .limit(100)
@@ -150,6 +156,7 @@ public actor SyncEngine {
         }
 
         let response = try await api.send(APIEndpoints.syncMutations(MutationBatch(mutations: mutations)))
+        let nowForRetry = clock.now()
 
         try await database.queue.write { db in
             for result in response.results {
@@ -159,13 +166,6 @@ public actor SyncEngine {
                         .filter(Column("client_uuid") == result.client_uuid)
                         .deleteAll(db)
                 case "conflict":
-                    let event = ConflictEvent(
-                        clientUuid: result.client_uuid,
-                        entity: due.first(where: { $0.client_uuid == result.client_uuid })?.entity ?? "",
-                        conflictType: result.conflict_type ?? "unknown",
-                        messages: result.errors?.values.flatMap { $0 } ?? []
-                    )
-                    self.conflictContinuation?.yield(event)
                     try PendingMutation
                         .filter(Column("client_uuid") == result.client_uuid)
                         .deleteAll(db)
@@ -174,11 +174,26 @@ public actor SyncEngine {
                         .filter(Column("client_uuid") == result.client_uuid).fetchOne(db) {
                         record.attempts += 1
                         let backoff = min(pow(2.0, Double(record.attempts)), 300)
-                        record.next_retry_at = self.clock.now().addingTimeInterval(backoff)
+                        record.next_retry_at = nowForRetry.addingTimeInterval(backoff)
                         try record.update(db)
                     }
                 }
             }
+        }
+
+        // Surface conflicts to subscribers AFTER the DB transaction so the
+        // UI sees a consistent state. The continuation is plain Continuation
+        // (Sendable), not actor-isolated, so this is safe from any context.
+        for result in response.results where result.status == "conflict" {
+            let entity = due.first(where: { $0.client_uuid == result.client_uuid })?.entity ?? ""
+            conflictContinuation.yield(
+                ConflictEvent(
+                    clientUuid: result.client_uuid,
+                    entity: entity,
+                    conflictType: result.conflict_type ?? "unknown",
+                    messages: result.errors?.values.flatMap { $0 } ?? []
+                )
+            )
         }
     }
 
