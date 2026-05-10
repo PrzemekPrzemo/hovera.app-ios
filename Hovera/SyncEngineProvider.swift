@@ -2,6 +2,7 @@ import Foundation
 import CoreNetworking
 import CorePersistence
 import CoreAuth
+import CoreSync
 
 /// Single shared sync engine. Created lazily on first access. Drop
 /// @MainActor isolation so AppDelegate's background task handler can
