@@ -29,19 +29,15 @@ public struct ConflictEvent: Sendable, Equatable {
 /// pull (GET /api/v1/sync/changes paginated until has_more=false) and one
 /// push (POST /api/v1/sync/mutations draining the local mutation_queue
 /// with exponential backoff on transient failures).
-///
-/// Swift 6 isolation rules: every value crossing into a @Sendable closure
-/// (GRDB transaction blocks, Task bodies) is read into a local `let`
-/// first — we never capture `self.X` from inside @Sendable.
 public actor SyncEngine {
     private let api: APIClient
     private let database: HoveraDatabase
-    private let clock: any Clock
+    private let clock: any SyncClock
     private var status: SyncStatus = .idle
     private let conflictContinuation: AsyncStream<ConflictEvent>.Continuation
     public nonisolated let conflicts: AsyncStream<ConflictEvent>
 
-    public init(api: APIClient, database: HoveraDatabase, clock: any Clock) {
+    public init(api: APIClient, database: HoveraDatabase, clock: any SyncClock) {
         self.api = api
         self.database = database
         self.clock = clock
@@ -68,8 +64,6 @@ public actor SyncEngine {
         }
     }
 
-    /// Enqueue a local mutation for the next push pass. Returns the
-    /// generated client_uuid so callers can correlate with conflict events.
     public func enqueueMutation(
         entity: String,
         op: String,
@@ -103,7 +97,7 @@ public actor SyncEngine {
     private func pullChanges() async throws {
         var since: String? = try await readCursor()
         var pages = 0
-        while pages < 50 {  // safety cap: 50 pages × 200 rows = 10k per runOnce
+        while pages < 50 {
             pages += 1
             let endpoint = APIEndpoints.syncChanges(since: since, entities: [], limit: 200)
             let feed = try await api.send(endpoint)
@@ -148,8 +142,6 @@ public actor SyncEngine {
     private func pushMutations() async throws {
         let now = clock.now()
         let due: [PendingMutation] = try await database.queue.read { db in
-            // Raw SQL filter sidesteps Swift 6 operator-resolution ambiguity
-            // around `Column(...) == nil || Column(...) <= now`.
             try PendingMutation
                 .filter(sql: "next_retry_at IS NULL OR next_retry_at <= ?", arguments: [now])
                 .order(Column("created_at"))
@@ -204,9 +196,6 @@ public actor SyncEngine {
             }
         }
 
-        // Surface conflicts AFTER the DB transaction so subscribers observe
-        // a consistent state. Continuation is `let` (not actor-isolated),
-        // safe to call from any context.
         for result in response.results where result.status == "conflict" {
             let entity = dueByUuid[result.client_uuid] ?? ""
             conflictContinuation.yield(
