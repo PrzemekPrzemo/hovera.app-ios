@@ -1,0 +1,128 @@
+name: Hovera
+options:
+  bundleIdPrefix: app.hovera
+  deploymentTarget:
+    iOS: "17.0"
+  developmentLanguage: pl
+  xcodeVersion: "15.4"
+  groupSortPosition: top
+  generateEmptyDirectories: true
+  defaultConfig: Debug
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+    DEVELOPMENT_TEAM: ""
+    SUPPORTS_MACCATALYST: NO
+    SWIFT_STRICT_CONCURRENCY: targeted
+    DEAD_CODE_STRIPPING: YES
+  configs:
+    Debug:
+      SWIFT_OPTIMIZATION_LEVEL: -Onone
+      SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+    Release:
+      SWIFT_OPTIMIZATION_LEVEL: -O
+configs:
+  Debug: debug
+  Release: release
+packages:
+  Core:
+    path: Packages/Core
+  Features:
+    path: Packages/Features
+  GRDB:
+    url: https://github.com/groue/GRDB.swift
+    from: "6.29.0"
+targets:
+  Hovera:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Hovera
+    resources:
+      - path: Hovera/Resources
+    info:
+      path: Hovera/Info.plist
+      properties:
+        CFBundleDisplayName: hovera
+        CFBundleShortVersionString: "1.0.0"
+        CFBundleVersion: "1"
+        UILaunchScreen:
+          UIColorName: BrandBackground
+        UIBackgroundModes:
+          - remote-notification
+          - fetch
+        BGTaskSchedulerPermittedIdentifiers:
+          - app.hovera.sync
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        ITSAppUsesNonExemptEncryption: false
+        NSCameraUsageDescription: "hovera używa aparatu, by robić zdjęcia koniom i dokumenty."
+        NSPhotoLibraryUsageDescription: "hovera używa biblioteki zdjęć, by załadować fotografie koni."
+        NSFaceIDUsageDescription: "hovera używa Face ID, by chronić dane Twojej stajni."
+        CFBundleLocalizations:
+          - pl
+          - en
+        UIRequiresFullScreen: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.hovera.ios
+        TARGETED_DEVICE_FAMILY: "1,2"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: BrandPrimary
+        CODE_SIGN_STYLE: Automatic
+    dependencies:
+      - package: Core
+        product: CoreNetworking
+      - package: Core
+        product: CorePersistence
+      - package: Core
+        product: CoreSync
+      - package: Core
+        product: CoreAuth
+      - package: Core
+        product: CoreDesignSystem
+      - package: Features
+        product: SharedFeature
+      - package: Features
+        product: ClientFeature
+      - package: Features
+        product: InstructorFeature
+      - package: Features
+        product: GroomFeature
+      - package: Features
+        product: ManagerFeature
+  HoveraTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: HoveraTests
+    dependencies:
+      - target: Hovera
+      - package: Core
+        product: CoreSync
+      - package: Core
+        product: CoreNetworking
+schemes:
+  Hovera:
+    build:
+      targets:
+        Hovera: all
+    test:
+      targets:
+        - HoveraTests
+      gatherCoverageData: true
+    run:
+      config: Debug
+    archive:
+      config: Release

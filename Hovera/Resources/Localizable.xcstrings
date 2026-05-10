@@ -1,0 +1,126 @@
+{
+  "sourceLanguage" : "pl",
+  "version" : "1.0",
+  "strings" : {
+    "app.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } }
+      }
+    },
+    "login.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zaloguj się" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in" } }
+      }
+    },
+    "login.subtitle" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zarządzaj swoją stajnią z dowolnego miejsca." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manage your stable from anywhere." } }
+      }
+    },
+    "login.email.label" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "E-mail" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Email" } }
+      }
+    },
+    "login.password.label" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Hasło" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Password" } }
+      }
+    },
+    "login.action" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zaloguj" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in" } }
+      }
+    },
+    "login.error.invalid" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Niepoprawny e-mail lub hasło." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invalid email or password." } }
+      }
+    },
+    "tenant.picker.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wybierz stajnię" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose stable" } }
+      }
+    },
+    "role.client.home.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Mój koń" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "My horse" } }
+      }
+    },
+    "role.instructor.home.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Plan zajęć" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Schedule" } }
+      }
+    },
+    "role.groom.home.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Dzisiaj w stajni" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today in the stable" } }
+      }
+    },
+    "role.manager.home.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pulpit" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dashboard" } }
+      }
+    },
+    "role.unknown.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Nieznana rola" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unknown role" } }
+      }
+    },
+    "common.loading" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Ładowanie…" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading…" } }
+      }
+    },
+    "common.cancel" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Anuluj" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } }
+      }
+    },
+    "common.retry" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Spróbuj ponownie" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } }
+      }
+    },
+    "common.logout" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wyloguj" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign out" } }
+      }
+    },
+    "sync.status.idle" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zsynchronizowano" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Up to date" } }
+      }
+    },
+    "sync.status.offline" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Offline — zmiany zostaną wysłane po połączeniu" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Offline — changes will sync when you’re back online" } }
+      }
+    },
+    "sync.status.syncing" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Synchronizacja…" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Syncing…" } }
+      }
+    }
+  }
+}
