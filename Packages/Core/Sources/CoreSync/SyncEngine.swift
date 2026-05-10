@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import CoreNetworking
 import CorePersistence
 import CoreAuth
@@ -26,7 +27,7 @@ public actor SyncEngine {
     private let clock: any Clock
     private var status: SyncStatus = .idle
     private var conflictContinuation: AsyncStream<ConflictEvent>.Continuation?
-    public let conflicts: AsyncStream<ConflictEvent>
+    public nonisolated let conflicts: AsyncStream<ConflictEvent>
 
     public init(api: APIClient, database: HoveraDatabase, clock: any Clock) {
         self.api = api
@@ -104,9 +105,13 @@ public actor SyncEngine {
                         syncVersion: change.sync_version, updatedAt: change.updated_at
                     )
                 } else {
-                    let payloadJson = (try? JSONEncoder().encode(change.payload).flatMap {
-                        String(data: $0, encoding: .utf8)
-                    }) ?? "{}"
+                    let payloadJson: String
+                    if let payload = change.payload {
+                        let data = (try? JSONEncoder().encode(payload)) ?? Data("{}".utf8)
+                        payloadJson = String(data: data, encoding: .utf8) ?? "{}"
+                    } else {
+                        payloadJson = "{}"
+                    }
                     try EntityStore.upsert(in: db, table: table, change: ChangeRow(
                         id: change.id, syncVersion: change.sync_version,
                         updatedAt: change.updated_at, payloadJson: payloadJson
@@ -161,14 +166,10 @@ public actor SyncEngine {
                         messages: result.errors?.values.flatMap { $0 } ?? []
                     )
                     self.conflictContinuation?.yield(event)
-                    // Drop conflicting mutation — user will re-attempt with
-                    // server state. Could be reworked to keep a "rejected"
-                    // queue for manual review.
                     try PendingMutation
                         .filter(Column("client_uuid") == result.client_uuid)
                         .deleteAll(db)
                 default:
-                    // Unknown status: bump attempts, schedule retry.
                     if var record = try PendingMutation
                         .filter(Column("client_uuid") == result.client_uuid).fetchOne(db) {
                         record.attempts += 1
@@ -199,7 +200,6 @@ public actor SyncEngine {
     }
 }
 
-import UIKit
 private func UIDevice_identifier() async -> String {
     await MainActor.run { UIDevice.current.identifierForVendor?.uuidString ?? "unknown" }
 }

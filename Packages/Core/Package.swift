@@ -33,7 +33,10 @@ let package = Package(
         ),
         .target(
             name: "CoreSync",
-            dependencies: ["CoreNetworking", "CorePersistence", "CoreAuth"],
+            dependencies: [
+                "CoreNetworking", "CorePersistence", "CoreAuth",
+                .product(name: "GRDB", package: "GRDB.swift"),
+            ],
             path: "Sources/CoreSync"
         ),
     ]
