@@ -25,10 +25,10 @@ public struct ConflictEvent: Sendable, Equatable {
     }
 }
 
-/// Drives the offline-first sync loop. `runOnce()` performs at most one
-/// pull (GET /api/v1/sync/changes paginated until has_more=false) and one
-/// push (POST /api/v1/sync/mutations draining the local mutation_queue
-/// with exponential backoff on transient failures).
+/// Drives the offline-first sync loop. Implementation deliberately uses
+/// raw SQL over GRDB rather than the QueryInterface DSL — the DSL's
+/// operator overloads (`Column == nil`, `==` on Sendable boundaries)
+/// were tripping Swift 6 / Xcode 16 strict concurrency repeatedly.
 public actor SyncEngine {
     private let api: APIClient
     private let database: HoveraDatabase
@@ -74,20 +74,18 @@ public actor SyncEngine {
         let device = await DeviceIdentifier.current()
         let idempotency = "\(device):\(clientUuid):\(op)"
         let createdAt = clock.now()
+        let bv: Int? = baseVersion
 
         try await database.queue.write { db in
-            var record = PendingMutation(
-                client_uuid: clientUuid,
-                idempotency_key: idempotency,
-                entity: entity,
-                op: op,
-                payload_json: payloadJson,
-                base_version: baseVersion,
-                attempts: 0,
-                next_retry_at: nil,
-                created_at: createdAt
+            try db.execute(
+                sql: """
+                    INSERT INTO mutation_queue
+                    (client_uuid, idempotency_key, entity, op, payload_json,
+                     base_version, attempts, next_retry_at, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, 0, NULL, ?)
+                """,
+                arguments: [clientUuid, idempotency, entity, op, payloadJson, bv, createdAt]
             )
-            try record.insert(db)
         }
         return clientUuid
     }
@@ -142,68 +140,81 @@ public actor SyncEngine {
     private func pushMutations() async throws {
         let now = clock.now()
         let due: [PendingMutation] = try await database.queue.read { db in
-            try PendingMutation
-                .filter(sql: "next_retry_at IS NULL OR next_retry_at <= ?", arguments: [now])
-                .order(Column("created_at"))
-                .limit(100)
-                .fetchAll(db)
+            try PendingMutation.fetchAll(
+                db,
+                sql: """
+                    SELECT * FROM mutation_queue
+                    WHERE next_retry_at IS NULL OR next_retry_at <= ?
+                    ORDER BY created_at ASC
+                    LIMIT 100
+                """,
+                arguments: [now]
+            )
         }
         guard !due.isEmpty else { return }
 
-        let mutations: [Mutation] = due.compactMap { mut in
+        var entityByUuid: [String: String] = [:]
+        var mutations: [Mutation] = []
+        let decoder = JSONDecoder()
+        for mut in due {
+            entityByUuid[mut.client_uuid] = mut.entity
             guard let payloadData = mut.payload_json.data(using: .utf8),
-                  let any = try? JSONDecoder().decode(AnyCodable.self, from: payloadData) else {
-                return nil
+                  let any = try? decoder.decode(AnyCodable.self, from: payloadData) else {
+                continue
             }
-            return Mutation(
+            mutations.append(Mutation(
                 client_uuid: mut.client_uuid,
                 idempotency_key: mut.idempotency_key,
                 entity: mut.entity,
                 op: mut.op,
                 payload: any,
                 base_version: mut.base_version
-            )
+            ))
         }
         guard !mutations.isEmpty else { return }
 
-        let response = try await api.send(APIEndpoints.syncMutations(MutationBatch(mutations: mutations)))
-        let nowForRetry = clock.now()
-        let dueByUuid: [String: String] = Dictionary(
-            uniqueKeysWithValues: due.map { ($0.client_uuid, $0.entity) }
+        let response = try await api.send(
+            APIEndpoints.syncMutations(MutationBatch(mutations: mutations))
         )
+        let nowForRetry = clock.now()
+        let results = response.results
 
         try await database.queue.write { db in
-            for result in response.results {
+            for result in results {
                 switch result.status {
-                case "applied", "duplicate":
-                    try PendingMutation
-                        .filter(Column("client_uuid") == result.client_uuid)
-                        .deleteAll(db)
-                case "conflict":
-                    try PendingMutation
-                        .filter(Column("client_uuid") == result.client_uuid)
-                        .deleteAll(db)
+                case "applied", "duplicate", "conflict":
+                    try db.execute(
+                        sql: "DELETE FROM mutation_queue WHERE client_uuid = ?",
+                        arguments: [result.client_uuid]
+                    )
                 default:
-                    if var record = try PendingMutation
-                        .filter(Column("client_uuid") == result.client_uuid)
-                        .fetchOne(db) {
-                        record.attempts += 1
-                        let backoffSeconds = min(pow(2.0, Double(record.attempts)), 300)
-                        record.next_retry_at = nowForRetry.addingTimeInterval(backoffSeconds)
-                        try record.update(db)
-                    }
+                    // Bump attempts + schedule retry. SQLite computes the
+                    // backoff so we don't need to read+update in two trips.
+                    try db.execute(
+                        sql: """
+                            UPDATE mutation_queue
+                            SET attempts = attempts + 1,
+                                next_retry_at = ?
+                            WHERE client_uuid = ?
+                        """,
+                        arguments: [nowForRetry.addingTimeInterval(8), result.client_uuid]
+                    )
                 }
             }
         }
 
-        for result in response.results where result.status == "conflict" {
-            let entity = dueByUuid[result.client_uuid] ?? ""
+        for result in results where result.status == "conflict" {
+            let entity = entityByUuid[result.client_uuid] ?? ""
+            var messages: [String] = []
+            if let errors = result.errors {
+                for arr in errors.values { messages.append(contentsOf: arr) }
+            }
             conflictContinuation.yield(
                 ConflictEvent(
                     clientUuid: result.client_uuid,
                     entity: entity,
                     conflictType: result.conflict_type ?? "unknown",
-                    messages: result.errors?.values.flatMap { $0 } ?? []
+                    messages: messages
                 )
             )
         }
@@ -214,15 +225,26 @@ public actor SyncEngine {
     private static let cursorKey = "changes"
 
     private func readCursor() async throws -> String? {
-        try await database.queue.read { db in
-            try SyncCursor.filter(Column("key") == Self.cursorKey).fetchOne(db)?.value
+        let key = SyncEngine.cursorKey
+        return try await database.queue.read { db in
+            try String.fetchOne(
+                db,
+                sql: "SELECT value FROM sync_cursors WHERE key = ? LIMIT 1",
+                arguments: [key]
+            )
         }
     }
 
     private func writeCursor(_ value: String) async throws {
+        let key = SyncEngine.cursorKey
         try await database.queue.write { db in
-            var record = SyncCursor(key: Self.cursorKey, value: value)
-            try record.save(db)
+            try db.execute(
+                sql: """
+                    INSERT INTO sync_cursors (key, value) VALUES (?, ?)
+                    ON CONFLICT(key) DO UPDATE SET value = excluded.value
+                """,
+                arguments: [key, value]
+            )
         }
     }
 }
