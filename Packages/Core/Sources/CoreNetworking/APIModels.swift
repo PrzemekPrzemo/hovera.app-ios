@@ -4,6 +4,12 @@ public struct LoginRequestBody: Encodable, Sendable {
     public let email: String
     public let password: String
     public let device_name: String?
+
+    public init(email: String, password: String, device_name: String?) {
+        self.email = email
+        self.password = password
+        self.device_name = device_name
+    }
 }
 
 public struct LoginResponse: Decodable, Sendable {
@@ -40,6 +46,13 @@ public struct DeviceRegistration: Encodable, Sendable {
     public let token: String
     public let locale: String
     public let app_version: String
+
+    public init(platform: String, token: String, locale: String, app_version: String) {
+        self.platform = platform
+        self.token = token
+        self.locale = locale
+        self.app_version = app_version
+    }
 }
 
 public struct DeviceRegistrationResponse: Decodable, Sendable {
@@ -74,6 +87,22 @@ public struct Mutation: Codable, Sendable {
     public let op: String
     public let payload: AnyCodable
     public let base_version: Int?
+
+    public init(
+        client_uuid: String,
+        idempotency_key: String,
+        entity: String,
+        op: String,
+        payload: AnyCodable,
+        base_version: Int?
+    ) {
+        self.client_uuid = client_uuid
+        self.idempotency_key = idempotency_key
+        self.entity = entity
+        self.op = op
+        self.payload = payload
+        self.base_version = base_version
+    }
 }
 
 public struct MutationResults: Decodable, Sendable {
@@ -94,6 +123,12 @@ public struct PresignRequest: Encodable, Sendable {
     public let sha256: String
     public let mime: String
     public let byte_size: Int
+
+    public init(sha256: String, mime: String, byte_size: Int) {
+        self.sha256 = sha256
+        self.mime = mime
+        self.byte_size = byte_size
+    }
 }
 
 public struct PresignResponse: Decodable, Sendable {
@@ -106,11 +141,6 @@ public struct PresignResponse: Decodable, Sendable {
 
 /// JSON value bridge — lets us decode opaque payloads from /sync/changes
 /// and round-trip them as encodable bodies for /sync/mutations.
-///
-/// `@unchecked Sendable`: internal storage is `JSONValue` (an enum of leaf
-/// types) which is structurally sendable; we mark it unchecked to dodge
-/// Swift 6 strict-concurrency checks on the recursive case (the array /
-/// dictionary variants reference Self).
 public struct AnyCodable: Codable, @unchecked Sendable {
     public let value: JSONValue
 
