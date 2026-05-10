@@ -57,25 +57,29 @@ public struct LoginView: View {
     }
 
     private func submit() {
-        Task {
+        Task { @MainActor in
             isWorking = true
             errorMessage = nil
-            await session.signIn(email: email, password: password) { email, password in
+            let capturedEmail = email
+            let capturedPassword = password
+            await session.signIn(email: capturedEmail, password: capturedPassword) { email, password in
                 let response = try await APIClient.shared.send(
                     APIEndpoints.login(email: email, password: password, deviceName: "iOS")
                 )
-                let mapped = response.memberships.map { m in
-                    Session.Membership(
-                        id: m.tenant.id,
-                        tenantName: m.tenant.name,
-                        brandColorHex: m.tenant.brand_color,
-                        role: MembershipRole(raw: m.role)
-                    )
-                }
-                return (response.token, mapped)
+                return (
+                    response.token,
+                    response.memberships.map { m in
+                        Membership(
+                            id: m.tenant.id,
+                            tenantName: m.tenant.name,
+                            brandColorHex: m.tenant.brand_color,
+                            role: MembershipRole(raw: m.role)
+                        )
+                    }
+                )
             }
             isWorking = false
-            if case .unauthenticated = session.state, !email.isEmpty {
+            if case .unauthenticated = session.state, !capturedEmail.isEmpty {
                 errorMessage = "login.error.invalid"
             }
         }

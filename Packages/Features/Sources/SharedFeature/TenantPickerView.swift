@@ -21,7 +21,9 @@ public struct TenantPickerView: View {
                 ScrollView {
                     VStack(spacing: HoveraTheme.Spacing.m) {
                         ForEach(session.memberships) { membership in
-                            Button(action: { Task { await session.pickTenant(membership) } }) {
+                            Button {
+                                Task { @MainActor in await session.pickTenant(membership) }
+                            } label: {
                                 tenantRow(membership)
                             }
                             .buttonStyle(.plain)
@@ -30,7 +32,9 @@ public struct TenantPickerView: View {
                 }
             }
 
-            Button(action: { Task { await session.signOut() } }) {
+            Button {
+                Task { @MainActor in await session.signOut() }
+            } label: {
                 Text("common.logout")
             }
             .buttonStyle(HoveraSecondaryButtonStyle())
@@ -40,7 +44,7 @@ public struct TenantPickerView: View {
     }
 
     @ViewBuilder
-    private func tenantRow(_ m: Session.Membership) -> some View {
+    private func tenantRow(_ m: Membership) -> some View {
         HStack {
             Circle()
                 .fill(HoveraTheme.Colors.brandPrimary)
