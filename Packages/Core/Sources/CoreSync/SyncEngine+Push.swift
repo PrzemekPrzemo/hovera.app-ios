@@ -15,12 +15,23 @@ extension SyncEngine {
         let device = await DeviceIdentifier.current()
         let idempotency = "\(device):\(clientUuid):\(op)"
         let createdAt = clock.now()
-        let bv = baseVersion
+
+        // Split INSERT by baseVersion presence so the `arguments:` array
+        // stays homogeneous (no Int? mixed with non-Optional types) —
+        // Swift 6 strict mode refuses to infer StatementArguments from
+        // a literal array containing both Optional and non-Optional values.
         try await database.queue.write { db in
-            try db.execute(
-                sql: "INSERT INTO mutation_queue (client_uuid, idempotency_key, entity, op, payload_json, base_version, attempts, next_retry_at, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, NULL, ?)",
-                arguments: [clientUuid, idempotency, entity, op, payloadJson, bv, createdAt]
-            )
+            if let bv = baseVersion {
+                try db.execute(
+                    sql: "INSERT INTO mutation_queue (client_uuid, idempotency_key, entity, op, payload_json, base_version, attempts, next_retry_at, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, NULL, ?)",
+                    arguments: [clientUuid, idempotency, entity, op, payloadJson, bv, createdAt]
+                )
+            } else {
+                try db.execute(
+                    sql: "INSERT INTO mutation_queue (client_uuid, idempotency_key, entity, op, payload_json, base_version, attempts, next_retry_at, created_at) VALUES (?, ?, ?, ?, ?, NULL, 0, NULL, ?)",
+                    arguments: [clientUuid, idempotency, entity, op, payloadJson, createdAt]
+                )
+            }
         }
         return clientUuid
     }
@@ -71,9 +82,13 @@ extension SyncEngine {
                     )
                 default:
                     let nextRetry = nowForRetry.addingTimeInterval(8)
+                    // Two-arg call with mixed types: pre-construct explicit
+                    // StatementArguments rather than rely on array literal
+                    // inference under Swift 6 strict mode.
+                    let args: StatementArguments = StatementArguments([nextRetry, uuid])
                     try db.execute(
                         sql: "UPDATE mutation_queue SET attempts = attempts + 1, next_retry_at = ? WHERE client_uuid = ?",
-                        arguments: [nextRetry, uuid]
+                        arguments: args
                     )
                 }
             }
