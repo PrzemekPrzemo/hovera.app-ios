@@ -1,0 +1,5 @@
+// Build flavors:
+//   Debug   → https://staging.hovera.app
+//   Release → https://api.hovera.app
+// Override locally with HOVERA_API_BASE_URL env var (read in APIConfig.default).
+HOVERA_API_BASE_URL = https:/$()/staging.hovera.app
