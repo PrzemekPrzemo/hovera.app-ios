@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreAuth
 import CoreNetworking
+import CoreSync
 import CoreDesignSystem
 
 public struct LoginView: View {
@@ -81,6 +82,11 @@ public struct LoginView: View {
             isWorking = false
             if case .unauthenticated = session.state, !capturedEmail.isEmpty {
                 errorMessage = "login.error.invalid"
+            }
+            // If signIn auto-picked the single tenant, fire a sync so the
+            // first role home doesn't open empty.
+            if case .ready = session.state {
+                await SyncEngineProvider.shared.runOnce()
             }
         }
     }

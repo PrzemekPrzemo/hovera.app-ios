@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreAuth
+import CoreSync
 import CoreDesignSystem
 
 public struct TenantPickerView: View {
@@ -22,7 +23,10 @@ public struct TenantPickerView: View {
                     VStack(spacing: HoveraTheme.Spacing.m) {
                         ForEach(session.memberships) { membership in
                             Button {
-                                Task { @MainActor in await session.pickTenant(membership) }
+                                Task { @MainActor in
+                                    await session.pickTenant(membership)
+                                    await SyncEngineProvider.shared.runOnce()
+                                }
                             } label: {
                                 tenantRow(membership)
                             }
