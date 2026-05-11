@@ -121,6 +121,258 @@
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Synchronizacja…" } },
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Syncing…" } }
       }
+    },
+    "Brak nadchodzących lekcji" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak nadchodzących lekcji" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming lessons" } }
+      }
+    },
+    "Zarezerwuj termin przez aplikację lub na portalu stajni." : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zarezerwuj termin przez aplikację lub na portalu stajni." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Book a slot through the app or your stable’s portal." } }
+      }
+    },
+    "Lekcja" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Lekcja" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lesson" } }
+      }
+    },
+    "Klient" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Klient" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Client" } }
+      }
+    },
+    "Instruktor" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Instruktor" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Instructor" } }
+      }
+    },
+    "Stajenny" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Stajenny" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Groom" } }
+      }
+    },
+    "Manager" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Manager" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manager" } }
+      }
+    },
+    "Odblokowywanie…" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Odblokowywanie…" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlocking…" } }
+      }
+    },
+    "Odblokuj hovera" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Odblokuj hovera" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock hovera" } }
+      }
+    },
+    "Odblokuj aplikację" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Odblokuj aplikację" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock the app" } }
+      }
+    },
+    "Nie udało się zweryfikować." : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Nie udało się zweryfikować." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not verify." } }
+      }
+    },
+    "Anulowano. Stuknij, aby spróbować ponownie." : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Anulowano. Stuknij, aby spróbować ponownie." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancelled. Tap to try again." } }
+      }
+    },
+    "Spróbuj ponownie" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Spróbuj ponownie" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Try again" } }
+      }
+    },
+    "Sfotografuj konia" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Sfotografuj konia" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Take horse photo" } }
+      }
+    },
+    "Brak zadań na dziś" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak zadań na dziś" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No tasks today" } }
+      }
+    },
+    "Wszystko zrobione albo dane jeszcze się ładują." : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wszystko zrobione albo dane jeszcze się ładują." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "All done or data still loading." } }
+      }
+    },
+    "Brak koni" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak koni" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No horses" } }
+      }
+    },
+    "Pojawią się po synchronizacji." : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pojawią się po synchronizacji." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after sync." } }
+      }
+    },
+    "Pojawią się po pierwszej synchronizacji." : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pojawią się po pierwszej synchronizacji." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after first sync." } }
+      }
+    },
+    "Ostatnie pomiary wagi" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Ostatnie pomiary wagi" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent weight measurements" } }
+      }
+    },
+    "Zadanie" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zadanie" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Task" } }
+      }
+    },
+    "Brak faktur" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak faktur" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No invoices" } }
+      }
+    },
+    "Po wystawieniu faktury KSeF zobaczysz ją tutaj." : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Po wystawieniu faktury KSeF zobaczysz ją tutaj." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once a KSeF invoice is issued you’ll see it here." } }
+      }
+    },
+    "Konie" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Konie" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Horses" } }
+      }
+    },
+    "Klienci" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Klienci" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clients" } }
+      }
+    },
+    "Boksy" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Boksy" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Boxes" } }
+      }
+    },
+    "Aktywne przypisania" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Aktywne przypisania" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Active assignments" } }
+      }
+    },
+    "Niezapłacone faktury" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Niezapłacone faktury" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unpaid invoices" } }
+      }
+    },
+    "Najbliższe lekcje" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Najbliższe lekcje" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upcoming lessons" } }
+      }
+    },
+    "Ostatnie faktury" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Ostatnie faktury" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent invoices" } }
+      }
+    },
+    "client.section.next_lesson" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Najbliższa lekcja" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next lesson" } }
+      }
+    },
+    "client.section.my_horses" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Moje konie" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "My horses" } }
+      }
+    },
+    "client.section.invoices" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Faktury" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invoices" } }
+      }
+    },
+    "client.next_lesson.empty.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak nadchodzących lekcji" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming lessons" } }
+      }
+    },
+    "client.next_lesson.empty.subtitle" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zarezerwuj termin w aplikacji." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Book a slot in the app." } }
+      }
+    },
+    "client.my_horses.empty.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak koni" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No horses" } }
+      }
+    },
+    "client.my_horses.empty.subtitle" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pojawią się po synchronizacji." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after sync." } }
+      }
+    },
+    "client.invoices.empty.title" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak faktur" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No invoices" } }
+      }
+    },
+    "client.invoices.empty.subtitle" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Po wystawieniu zobaczysz je tutaj." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once issued they’ll appear here." } }
+      }
+    },
+    "instructor.section.today" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Dzisiaj" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today" } }
+      }
+    },
+    "instructor.empty.today" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak zaplanowanych zajęć." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No scheduled lessons." } }
+      }
+    },
+    "groom.intro.offline" : {
+      "localizations" : {
+        "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wszystko, co tutaj zaznaczysz, zostanie zsynchronizowane, gdy wróci sieć." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Anything you check here will sync when the network is back." } }
+      }
     }
   }
 }
