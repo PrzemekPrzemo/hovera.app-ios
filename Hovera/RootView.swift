@@ -32,10 +32,12 @@ struct RootView: View {
                     .tint(HoveraTheme.Colors.brandPrimary)
             }
         }
+        // Mount conflict banner globally — every role home, every screen, gets
+        // the same surfacing for SyncEngine conflict events. The banner only
+        // renders when an event arrives, so it's free when idle.
+        .hoveraConflictBanner()
         .task {
             await session.bootstrap()
-            // If bootstrap restored a previous session, fire a sync so the
-            // user sees fresh data right after launching.
             if case .ready = session.state {
                 await SyncEngineProvider.shared.runOnce()
             }
