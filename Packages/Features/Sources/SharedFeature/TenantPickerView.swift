@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreAuth
+import CoreNetworking
 import CoreSync
 import CoreDesignSystem
 
@@ -26,6 +27,7 @@ public struct TenantPickerView: View {
                                 Task { @MainActor in
                                     await session.pickTenant(membership)
                                     await SyncEngineProvider.shared.runOnce()
+                                    await DeviceTokenUploader.shared.uploadIfPending()
                                 }
                             } label: {
                                 tenantRow(membership)
