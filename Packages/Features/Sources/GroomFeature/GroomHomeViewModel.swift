@@ -1,5 +1,6 @@
 import SwiftUI
 import CorePersistence
+import CoreNetworking
 import CoreSync
 
 @MainActor
@@ -8,6 +9,7 @@ public final class GroomHomeViewModel {
     public private(set) var pendingToday: [StableActivity] = []
     public private(set) var horses: [Horse] = []
     public private(set) var recentWeights: [HorseWeightMeasurement] = []
+    public private(set) var lastUploadError: String?
 
     private let activityRepo: StableActivityRepository
     private let horseRepo: HorseRepository
@@ -42,9 +44,6 @@ public final class GroomHomeViewModel {
         self.recentWeights = Array(recent.prefix(10))
     }
 
-    /// Optimistic toggle: persists locally for instant UI feedback, then
-    /// enqueues a sync mutation. iOS Push is currently stubbed, so the
-    /// mutation won't reach the server until that's restored.
     public func toggleActivity(_ activity: StableActivity) async {
         let newStatus = activity.status == "completed" ? "pending" : "completed"
         let completedAt = newStatus == "completed" ? ISO8601DateFormatter().string(from: Date()) : nil
@@ -63,5 +62,34 @@ public final class GroomHomeViewModel {
             )
         }
         await load()
+    }
+
+    /// Upload bytes via presigned PUT (PhotoUploader), then enqueue a
+    /// `horse_photos.create` mutation referencing the returned storage_key.
+    /// Errors surface through `lastUploadError` so the UI can display them.
+    public func addHorsePhoto(data: Data, horseId: String) async {
+        lastUploadError = nil
+        do {
+            let storageKey = try await PhotoUploader.shared.uploadHorsePhoto(
+                data: data, mime: "image/jpeg"
+            )
+            let id = UUID().uuidString
+            let payload: [String: Any] = [
+                "id": id,
+                "horse_id": horseId,
+                "storage_key": storageKey,
+                "sha256": PhotoUploader.sha256Hex(data),
+            ]
+            if let payloadData = try? JSONSerialization.data(withJSONObject: payload),
+               let json = String(data: payloadData, encoding: .utf8) {
+                _ = try? await SyncEngineProvider.shared.enqueueMutation(
+                    entity: "horse_photos",
+                    op: "create",
+                    payloadJson: json
+                )
+            }
+        } catch {
+            lastUploadError = String(describing: error)
+        }
     }
 }

@@ -47,6 +47,7 @@ let package = Package(
             dependencies: [
                 "SharedFeature",
                 .product(name: "CorePersistence", package: "Core"),
+                .product(name: "CoreNetworking", package: "Core"),
                 .product(name: "CoreSync", package: "Core"),
             ],
             path: "Sources/GroomFeature"
