@@ -83,10 +83,9 @@ public struct LoginView: View {
             if case .unauthenticated = session.state, !capturedEmail.isEmpty {
                 errorMessage = "login.error.invalid"
             }
-            // If signIn auto-picked the single tenant, fire a sync so the
-            // first role home doesn't open empty.
             if case .ready = session.state {
                 await SyncEngineProvider.shared.runOnce()
+                await DeviceTokenUploader.shared.uploadIfPending()
             }
         }
     }
