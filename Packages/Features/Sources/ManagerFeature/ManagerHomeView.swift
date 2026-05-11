@@ -45,6 +45,7 @@ public struct ManagerHomeView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .navigationTitle(Text("role.manager.home.title"))
+            .toolbar { LogoutToolbarItem() }
             .refreshable { await viewModel.load() }
         }
         .task { await viewModel.load() }

@@ -66,6 +66,7 @@ public struct GroomHomeView: View {
                 .padding(HoveraTheme.Spacing.l)
             }
             .navigationTitle(Text("role.groom.home.title"))
+            .toolbar { LogoutToolbarItem() }
             .refreshable { await viewModel.load() }
         }
         .task { await viewModel.load() }

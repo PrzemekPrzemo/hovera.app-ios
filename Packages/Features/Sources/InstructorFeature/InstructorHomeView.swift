@@ -34,6 +34,7 @@ public struct InstructorHomeView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .navigationTitle(Text("role.instructor.home.title"))
+            .toolbar { LogoutToolbarItem() }
             .refreshable { await viewModel.load() }
         }
         .task { await viewModel.load() }

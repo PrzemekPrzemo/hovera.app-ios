@@ -41,6 +41,7 @@ public struct ClientHomeView: View {
             }
             .navigationTitle(Text("role.client.home.title"))
             .toolbarBackground(HoveraTheme.Colors.brandBackground, for: .navigationBar)
+            .toolbar { LogoutToolbarItem() }
             .refreshable { await viewModel.load() }
         }
         .task { await viewModel.load() }
