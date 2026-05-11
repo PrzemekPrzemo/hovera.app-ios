@@ -36,7 +36,10 @@ let package = Package(
         ),
         .target(
             name: "InstructorFeature",
-            dependencies: ["SharedFeature"],
+            dependencies: [
+                "SharedFeature",
+                .product(name: "CorePersistence", package: "Core"),
+            ],
             path: "Sources/InstructorFeature"
         ),
         .target(
@@ -50,7 +53,10 @@ let package = Package(
         ),
         .target(
             name: "ManagerFeature",
-            dependencies: ["SharedFeature"],
+            dependencies: [
+                "SharedFeature",
+                .product(name: "CorePersistence", package: "Core"),
+            ],
             path: "Sources/ManagerFeature"
         ),
     ]
