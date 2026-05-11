@@ -41,7 +41,11 @@ let package = Package(
         ),
         .target(
             name: "GroomFeature",
-            dependencies: ["SharedFeature"],
+            dependencies: [
+                "SharedFeature",
+                .product(name: "CorePersistence", package: "Core"),
+                .product(name: "CoreSync", package: "Core"),
+            ],
             path: "Sources/GroomFeature"
         ),
         .target(
