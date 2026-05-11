@@ -4,13 +4,11 @@ import CorePersistence
 import CoreAuth
 import CoreSync
 
-/// Single shared sync engine. Created lazily on first access. Drop
-/// @MainActor isolation so AppDelegate's background task handler can
-/// call us off the main thread without an extra hop.
+/// Single shared sync engine. Created lazily on first access.
 public enum SyncEngineProvider {
     public static let shared: SyncEngine = SyncEngine(
         api: APIClient.shared,
         database: HoveraDatabase.shared,
-        clock: SystemClock()
+        clock: SystemSyncClock()
     )
 }

@@ -24,19 +24,18 @@ public struct ConflictEvent: Sendable, Equatable {
     }
 }
 
-/// Minimal MVP scaffold. The full pull-deltas + push-mutations engine is
-/// reintroduced incrementally once CI is green; this version compiles
-/// cleanly under Xcode 16 / Swift 6 toolchain so we have a stable base.
+/// Minimal core. Pull / push live in `SyncEngine+Pull.swift` and
+/// `SyncEngine+Push.swift` so a compile error there doesn't take down
+/// the whole module (and so each piece can be debugged in isolation).
 public actor SyncEngine {
-    private let api: APIClient
-    private let database: HoveraDatabase
-    private let clock: any Clock
-    private var status: SyncStatus = .idle
-
-    private let conflictContinuation: AsyncStream<ConflictEvent>.Continuation
+    let api: APIClient
+    let database: HoveraDatabase
+    let clock: any SyncClock
+    var status: SyncStatus = .idle
+    let conflictContinuation: AsyncStream<ConflictEvent>.Continuation
     public nonisolated let conflicts: AsyncStream<ConflictEvent>
 
-    public init(api: APIClient, database: HoveraDatabase, clock: any Clock) {
+    public init(api: APIClient, database: HoveraDatabase, clock: any SyncClock) {
         self.api = api
         self.database = database
         self.clock = clock
@@ -47,9 +46,6 @@ public actor SyncEngine {
 
     public func currentStatus() -> SyncStatus { status }
 
-    /// One pull + one push pass. For now the implementation is a no-op
-    /// stub; the full implementation will live alongside the change-feed
-    /// service once we land deltaowe queries.
     public func runOnce() async {
         let online = await Reachability.shared.isOnline()
         guard online else {
@@ -57,9 +53,13 @@ public actor SyncEngine {
             return
         }
         status = .syncing
-        defer { status = .idle }
-        // TODO: pull — GET /api/v1/sync/changes
-        // TODO: push — POST /api/v1/sync/mutations
+        do {
+            try await pullChanges()
+            try await pushMutations()
+            status = .idle
+        } catch {
+            status = .error(String(describing: error))
+        }
     }
 
     public func reportConflict(_ event: ConflictEvent) {
