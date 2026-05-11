@@ -5,373 +5,559 @@
     "app.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "hovera" } }
       }
     },
     "login.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zaloguj się" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Anmelden" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Connexion" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Вход" } }
       }
     },
     "login.subtitle" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zarządzaj swoją stajnią z dowolnego miejsca." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manage your stable from anywhere." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manage your stable from anywhere." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Verwalte deinen Stall von überall." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Gérez votre écurie depuis n’importe où." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Управляйте своей конюшней из любой точки." } }
       }
     },
     "login.email.label" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "E-mail" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Email" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Email" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "E-Mail" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "E-mail" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Эл. почта" } }
       }
     },
     "login.password.label" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Hasło" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Password" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Password" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Passwort" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mot de passe" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пароль" } }
       }
     },
     "login.action" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zaloguj" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign in" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Anmelden" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Se connecter" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Войти" } }
       }
     },
     "login.error.invalid" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Niepoprawny e-mail lub hasło." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invalid email or password." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invalid email or password." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Ungültige E-Mail oder Passwort." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "E-mail ou mot de passe invalide." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Неверная эл. почта или пароль." } }
       }
     },
     "tenant.picker.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wybierz stajnię" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose stable" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose stable" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Stall auswählen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisir l’écurie" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выберите конюшню" } }
       }
     },
     "role.client.home.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Mój koń" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "My horse" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "My horse" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mein Pferd" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mon cheval" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Моя лошадь" } }
       }
     },
     "role.instructor.home.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Plan zajęć" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Schedule" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Schedule" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Stundenplan" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Planning" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Расписание" } }
       }
     },
     "role.groom.home.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Dzisiaj w stajni" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today in the stable" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today in the stable" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Heute im Stall" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aujourd’hui à l’écurie" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сегодня в конюшне" } }
       }
     },
     "role.manager.home.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pulpit" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dashboard" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dashboard" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dashboard" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tableau de bord" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Панель" } }
       }
     },
     "role.unknown.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Nieznana rola" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unknown role" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unknown role" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Unbekannte Rolle" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Rôle inconnu" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Неизвестная роль" } }
       }
     },
     "common.loading" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Ładowanie…" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading…" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading…" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Lädt…" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Chargement…" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Загрузка…" } }
       }
     },
     "common.cancel" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Anuluj" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abbrechen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Annuler" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отмена" } }
       }
     },
     "common.retry" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Spróbuj ponownie" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erneut versuchen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réessayer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Повторить" } }
       }
     },
     "common.logout" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wyloguj" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign out" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sign out" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abmelden" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Déconnexion" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выйти" } }
       }
     },
     "sync.status.idle" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zsynchronizowano" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Up to date" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Up to date" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Synchronisiert" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Synchronisé" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Синхронизировано" } }
       }
     },
     "sync.status.offline" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Offline — zmiany zostaną wysłane po połączeniu" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Offline — changes will sync when you’re back online" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Offline — changes will sync when you’re back online" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Offline — Änderungen werden synchronisiert, sobald du wieder online bist" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Hors ligne — les modifications seront synchronisées au retour de la connexion" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не в сети — изменения отправятся после подключения" } }
       }
     },
     "sync.status.syncing" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Synchronizacja…" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Syncing…" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Syncing…" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Synchronisiere…" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Synchronisation…" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Синхронизация…" } }
       }
     },
     "Brak nadchodzących lekcji" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak nadchodzących lekcji" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming lessons" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming lessons" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine bevorstehenden Stunden" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun cours à venir" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет ближайших уроков" } }
       }
     },
     "Zarezerwuj termin przez aplikację lub na portalu stajni." : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zarezerwuj termin przez aplikację lub na portalu stajni." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Book a slot through the app or your stable’s portal." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Book a slot through the app or your stable’s portal." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Reserviere einen Termin in der App oder im Stallportal." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réservez un créneau dans l’app ou sur le portail de l’écurie." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Забронируйте время в приложении или на портале конюшни." } }
       }
     },
     "Lekcja" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Lekcja" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lesson" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lesson" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Stunde" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Cours" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Урок" } }
       }
     },
     "Klient" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Klient" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Client" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Client" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Kunde" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Client" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Клиент" } }
       }
     },
     "Instruktor" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Instruktor" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Instructor" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Instructor" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Trainer" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Moniteur" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Инструктор" } }
       }
     },
     "Stajenny" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Stajenny" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Groom" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Groom" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Stallhelfer" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Palefrenier" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Конюх" } }
       }
     },
     "Manager" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Manager" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manager" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manager" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Manager" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Manager" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Менеджер" } }
       }
     },
     "Odblokowywanie…" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Odblokowywanie…" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlocking…" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlocking…" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Entsperren…" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Déverrouillage…" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разблокировка…" } }
       }
     },
     "Odblokuj hovera" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Odblokuj hovera" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock hovera" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock hovera" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "hovera entsperren" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Déverrouiller hovera" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разблокировать hovera" } }
       }
     },
     "Odblokuj aplikację" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Odblokuj aplikację" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock the app" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock the app" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "App entsperren" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Déverrouiller l’app" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разблокировать приложение" } }
       }
     },
     "Nie udało się zweryfikować." : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Nie udało się zweryfikować." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not verify." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not verify." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Konnte nicht verifiziert werden." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Vérification impossible." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось проверить." } }
       }
     },
     "Anulowano. Stuknij, aby spróbować ponownie." : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Anulowano. Stuknij, aby spróbować ponownie." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancelled. Tap to try again." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancelled. Tap to try again." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abgebrochen. Tippe, um erneut zu versuchen." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Annulé. Tapez pour réessayer." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отменено. Нажмите, чтобы повторить." } }
       }
     },
     "Spróbuj ponownie" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Spróbuj ponownie" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Try again" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Try again" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erneut versuchen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réessayer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Повторить" } }
       }
     },
     "Sfotografuj konia" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Sfotografuj konia" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Take horse photo" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Take horse photo" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Pferd fotografieren" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Photographier le cheval" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сфотографировать лошадь" } }
       }
     },
     "Brak zadań na dziś" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak zadań na dziś" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No tasks today" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No tasks today" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Aufgaben für heute" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune tâche aujourd’hui" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет задач на сегодня" } }
       }
     },
     "Wszystko zrobione albo dane jeszcze się ładują." : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wszystko zrobione albo dane jeszcze się ładują." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "All done or data still loading." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "All done or data still loading." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Alles erledigt oder Daten laden noch." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tout est fait ou les données chargent." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Всё сделано или данные ещё загружаются." } }
       }
     },
     "Brak koni" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak koni" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No horses" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No horses" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Pferde" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun cheval" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет лошадей" } }
       }
     },
     "Pojawią się po synchronizacji." : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pojawią się po synchronizacji." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after sync." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after sync." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erscheinen nach der Synchronisation." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Apparaîtront après synchronisation." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Появятся после синхронизации." } }
       }
     },
     "Pojawią się po pierwszej synchronizacji." : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pojawią się po pierwszej synchronizacji." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after first sync." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after first sync." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erscheinen nach der ersten Synchronisation." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Apparaîtront après la première synchronisation." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Появятся после первой синхронизации." } }
       }
     },
     "Ostatnie pomiary wagi" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Ostatnie pomiary wagi" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent weight measurements" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent weight measurements" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Letzte Gewichtsmessungen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Dernières mesures de poids" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Последние замеры веса" } }
       }
     },
     "Zadanie" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zadanie" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Task" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Task" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Aufgabe" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tâche" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Задача" } }
       }
     },
     "Brak faktur" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak faktur" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No invoices" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No invoices" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Rechnungen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune facture" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет счетов" } }
       }
     },
     "Po wystawieniu faktury KSeF zobaczysz ją tutaj." : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Po wystawieniu faktury KSeF zobaczysz ją tutaj." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once a KSeF invoice is issued you’ll see it here." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once a KSeF invoice is issued you’ll see it here." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nach Ausstellung einer KSeF-Rechnung wird sie hier angezeigt." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Une fois une facture KSeF émise, elle apparaîtra ici." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "После выставления счёта KSeF вы увидите его здесь." } }
       }
     },
     "Konie" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Konie" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Horses" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Horses" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Pferde" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Chevaux" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Лошади" } }
       }
     },
     "Klienci" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Klienci" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clients" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clients" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Kunden" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Clients" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Клиенты" } }
       }
     },
     "Boksy" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Boksy" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Boxes" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Boxes" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Boxen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Boxes" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Боксы" } }
       }
     },
     "Aktywne przypisania" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Aktywne przypisania" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Active assignments" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Active assignments" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Aktive Zuweisungen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Affectations actives" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Активные назначения" } }
       }
     },
     "Niezapłacone faktury" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Niezapłacone faktury" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unpaid invoices" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unpaid invoices" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Unbezahlte Rechnungen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Factures impayées" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Неоплаченные счета" } }
       }
     },
     "Najbliższe lekcje" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Najbliższe lekcje" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upcoming lessons" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upcoming lessons" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bevorstehende Stunden" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Cours à venir" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ближайшие уроки" } }
       }
     },
     "Ostatnie faktury" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Ostatnie faktury" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent invoices" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recent invoices" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Letzte Rechnungen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Dernières factures" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Последние счета" } }
       }
     },
     "client.section.next_lesson" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Najbliższa lekcja" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next lesson" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next lesson" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nächste Stunde" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Prochain cours" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ближайший урок" } }
       }
     },
     "client.section.my_horses" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Moje konie" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "My horses" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "My horses" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Meine Pferde" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Mes chevaux" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Мои лошади" } }
       }
     },
     "client.section.invoices" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Faktury" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invoices" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invoices" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rechnungen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Factures" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Счета" } }
       }
     },
     "client.next_lesson.empty.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak nadchodzących lekcji" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming lessons" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming lessons" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine bevorstehenden Stunden" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun cours à venir" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет ближайших уроков" } }
       }
     },
     "client.next_lesson.empty.subtitle" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Zarezerwuj termin w aplikacji." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Book a slot in the app." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Book a slot in the app." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Reserviere einen Termin in der App." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réservez un créneau dans l’app." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Забронируйте время в приложении." } }
       }
     },
     "client.my_horses.empty.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak koni" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No horses" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No horses" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Pferde" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun cheval" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет лошадей" } }
       }
     },
     "client.my_horses.empty.subtitle" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Pojawią się po synchronizacji." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after sync." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Will appear after sync." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Erscheinen nach der Synchronisation." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Apparaîtront après synchronisation." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Появятся после синхронизации." } }
       }
     },
     "client.invoices.empty.title" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak faktur" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No invoices" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No invoices" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Rechnungen" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune facture" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет счетов" } }
       }
     },
     "client.invoices.empty.subtitle" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Po wystawieniu zobaczysz je tutaj." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once issued they’ll appear here." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once issued they’ll appear here." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nach Ausstellung werden sie hier erscheinen." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Une fois émises, elles apparaîtront ici." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "После выставления появятся здесь." } }
       }
     },
     "instructor.section.today" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Dzisiaj" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today" } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Heute" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aujourd’hui" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сегодня" } }
       }
     },
     "instructor.empty.today" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Brak zaplanowanych zajęć." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No scheduled lessons." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No scheduled lessons." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine geplanten Stunden." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun cours prévu." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Уроков не запланировано." } }
       }
     },
     "groom.intro.offline" : {
       "localizations" : {
         "pl" : { "stringUnit" : { "state" : "translated", "value" : "Wszystko, co tutaj zaznaczysz, zostanie zsynchronizowane, gdy wróci sieć." } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Anything you check here will sync when the network is back." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Anything you check here will sync when the network is back." } },
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Alles, was du hier markierst, wird synchronisiert, sobald wieder Netz da ist." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tout ce que vous cochez ici sera synchronisé dès le retour du réseau." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Всё, что вы отметите здесь, будет синхронизировано, как только вернётся сеть." } }
       }
     }
   }
