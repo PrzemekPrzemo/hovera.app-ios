@@ -28,7 +28,10 @@ let package = Package(
         ),
         .target(
             name: "ClientFeature",
-            dependencies: ["SharedFeature"],
+            dependencies: [
+                "SharedFeature",
+                .product(name: "CorePersistence", package: "Core"),
+            ],
             path: "Sources/ClientFeature"
         ),
         .target(
