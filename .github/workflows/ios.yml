@@ -1,14 +1,35 @@
 name: iOS
+
+# Path filters: nie budujemy całej apki przy zmianach README albo dokumentacji.
+# Ważne na free tier (macOS = 10× mnożnik minut).
 on:
   pull_request:
-    branches: [main, claude/build-mobile-apps-tj3kb]
+    branches: [main]
+    paths:
+      - 'Hovera/**'
+      - 'Packages/**'
+      - 'project.yml'
+      - 'HoveraTests/**'
+      - '.github/workflows/ios.yml'
   push:
     branches: [main]
+    paths:
+      - 'Hovera/**'
+      - 'Packages/**'
+      - 'project.yml'
+      - 'HoveraTests/**'
+      - '.github/workflows/ios.yml'
+
+# Cancel previous run on the same PR when a new commit arrives — nie zostawiamy
+# 2 równoległych iOS buildów żerących po 30-50 macOS minut każdy.
+concurrency:
+  group: ios-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-test:
     runs-on: macos-14
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
