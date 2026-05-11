@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreAuth
 import CoreDesignSystem
+import CoreSync
 import SharedFeature
 import ClientFeature
 import InstructorFeature
@@ -33,6 +34,11 @@ struct RootView: View {
         }
         .task {
             await session.bootstrap()
+            // If bootstrap restored a previous session, fire a sync so the
+            // user sees fresh data right after launching.
+            if case .ready = session.state {
+                await SyncEngineProvider.shared.runOnce()
+            }
         }
     }
 }
