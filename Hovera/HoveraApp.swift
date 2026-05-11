@@ -10,8 +10,6 @@ struct HoveraApp: App {
     @StateObject private var session = Session.shared
 
     init() {
-        // Wire the SharedFeature shim so SyncStatusPill reflects real engine
-        // status without SharedFeature having to depend on the app target.
         SyncEngineProviderShim.statusProvider = {
             await SyncEngineProvider.shared.currentStatus()
         }
@@ -19,10 +17,12 @@ struct HoveraApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .environmentObject(session)
-                .tint(HoveraTheme.Colors.brandPrimary)
-                .preferredColorScheme(.light)
+            BiometricGate {
+                RootView()
+                    .environmentObject(session)
+            }
+            .tint(HoveraTheme.Colors.brandPrimary)
+            .preferredColorScheme(.light)
         }
     }
 }
